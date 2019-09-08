@@ -38,7 +38,14 @@ available later (asynchronous calls)
 ## Build Tools
 * [Webpack](https://webpack.js.org/) is a module bundler to combine files together into one or more files
 * Some browsers have only partial or no
-support for modern javascript. [Babel](https://babeljs.io/) is a compiler that translates your code into compatible code for
-most browsers
+support for modern javascript. [Babel](https://babeljs.io/) is a compiler that translates your code into compatible code for most browsers
+
+## Application Architecture
+* Old-style web applications were usually done by sending multiple pages from a web server, and when a
+lot of dynamism was needed, content was loaded via Ajax by replacing chunks of HTML according to user actions.
+* [SPA (Single Page Application)](https://en.wikipedia.org/wiki/Single-page_application) - the UI is rendered
+entirely client-side (no reloading), but it makes the initial load slow for the client. The only thing that changes is the data inside the application (remote API via Ajax)
+* [Isomorphic JS](https://en.wikipedia.org/wiki/Isomorphic_JavaScript) - most of the code
+can be executed both on the server and the client, SPA is downloaded in the background
 
 ...
