@@ -48,4 +48,54 @@ entirely client-side (no reloading), but it makes the initial load slow for the 
 * [Isomorphic JS](https://en.wikipedia.org/wiki/Isomorphic_JavaScript) - most of the code
 can be executed both on the server and the client, SPA is downloaded in the background
 
-...
+# Chapter 2: Clean Code with ES6 Default Parameters & Property Shorthands
+
+## ES6 Default Parameters
+* Initialize functions with default values that are used when an argument is either omitted or `undefined`
+* `function multiply (a, b = 2) { ...`
+* `function foo (num = 1, multi = multiply(num)) { ...`
+* ```javascript
+  function createElement (tag = 'div', {
+    content = 'Very default',
+    classNames = ['module-text', 'special']
+  } ...
+  ```
+
+## ES6 Property Shorthands
+* It’s common to prepare some variables and add them to said object:
+  ```javascript
+  const a = 'foo', b = 42, c = function () {};
+  ```
+  Previously we would use constants:
+  ```javascript
+  const alphabet = {
+    a: a,
+    b: b,
+    c: c
+  };
+  ```
+  Now with the new shorthand:
+  ```javascript
+  const alphabet = { a, b, c };
+  ```
+* Instead of this:
+  ```javascript
+  // data is an object with properties
+  const target = data.target;
+  const veryLongProperty = data.veryLongProperty;
+  useData({ target: target, property: veryLongProperty })
+  ```
+  you can just do this:
+  ```javascript
+  const { target, veryLongProperty: property } = data;
+  useData({ target, property });
+  ```
+* Property shorthands can also be applied to method
+definitions inside an object:
+  ```javascript
+  const module = {
+    bar (value) {...}
+  }
+  ```
+
+# ...
