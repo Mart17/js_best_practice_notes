@@ -98,4 +98,15 @@ definitions inside an object:
   }
   ```
 
+# Chapter3: JavaScript Performance Optimization Tips: An Overview
+* Mobile - Testing in Chrome DevTools’ device mode isn’t a valid substitute to testing on a real device
+* Even if you are testing on real mobile device don't use high-end device, for performance testing use rather something low-end
+* Measure performance with the [RAIL model](https://developers.google.com/web/fundamentals/performance/rail)
+* Load less JavaScript and load smarter
+* Before you dive into optimizing your code, consider what you’re building. Does your code need to do thousands
+of operations per second? Do you absolutely need to use a JS framework?
+* Avoid using JS animation frameworks for everything. Use it only if you can't implement the animation using regular CSS transitions and animations
+* Try shipping JS smarter. Ship what you need, when you need it
+  * Webpack - [code splitting](https://webpack.js.org/guides/code-splitting/) &  [dynamic imports](https://webpack.js.org/guides/code-splitting/#dynamic-imports)
+
 # ...
