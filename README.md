@@ -108,5 +108,38 @@ of operations per second? Do you absolutely need to use a JS framework?
 * Avoid using JS animation frameworks for everything. Use it only if you can't implement the animation using regular CSS transitions and animations
 * Try shipping JS smarter. Ship what you need, when you need it
   * Webpack - [code splitting](https://webpack.js.org/guides/code-splitting/) &  [dynamic imports](https://webpack.js.org/guides/code-splitting/#dynamic-imports)
+  * You can have one bundle with packages to patch up missing features in older browsers and another without them, so you save almost 100 kilobytes to your JS bundle
+
+# Chapter4: JavaScript Design Patterns: The Singleton
+* Singleton pattern restricts the instantiation of a class to one object. A singleton should be immutable by the consuming code, and there should be no danger of instantiating more than one of them
+* ```javascript
+  class UserStore {
+    constructor(){
+      // here we check whether or not we’ve already instantiated a UserStore
+      // if we have, we won’t create a new one
+      if (! UserStore.instance) {
+        this._data = [];
+        UserStore.instance = this;
+      }
+
+      return UserStore.instance;
+    }
+
+    add(item) {
+      this._data.push(item);
+    }
+
+    get(id) {
+      return this._data.find(d => d.id === id);
+    }
+  }
+
+  const instance = new UserStore();
+  // result of using Object.freeze is that its methods cannot be changed, nor can new methods or properties be added to it
+  Object.freeze(instance);
+
+  // we’re taking advantage of ES6 modules, so we know exactly where UserStore is used
+  export default instance;
+  ```
 
 # ...
