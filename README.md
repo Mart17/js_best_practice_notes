@@ -149,14 +149,14 @@ of operations per second? Do you absolutely need to use a JS framework?
   class Thing {
     constructor() {
       this.x = 42;
-      this.y = 3.14;
     }
 
-    f() {}
     g() {}
   }
 
   const o = new Thing();
   ```
 
-# ... 
+# Chapter 6: Best Practices for Using Modern JavaScript Syntax
+* Use `const` for simple number or string variables to initialize and never alter, or for named functions and classes that you expect to define once and then leave closed for modification. Otherwise, use `let` for most variable
+declarations — especially those you want to be bounded by the scope in which they were defined
