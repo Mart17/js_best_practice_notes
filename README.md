@@ -98,7 +98,7 @@ definitions inside an object:
   }
   ```
 
-# Chapter3: JavaScript Performance Optimization Tips: An Overview
+# Chapter 3: JavaScript Performance Optimization Tips: An Overview
 * Mobile - Testing in Chrome DevTools’ device mode isn’t a valid substitute to testing on a real device
 * Even if you are testing on real mobile device don't use high-end device, for performance testing use rather something low-end
 * Measure performance with the [RAIL model](https://developers.google.com/web/fundamentals/performance/rail)
@@ -110,7 +110,7 @@ of operations per second? Do you absolutely need to use a JS framework?
   * Webpack - [code splitting](https://webpack.js.org/guides/code-splitting/) &  [dynamic imports](https://webpack.js.org/guides/code-splitting/#dynamic-imports)
   * You can have one bundle with packages to patch up missing features in older browsers and another without them, so you save almost 100 kilobytes to your JS bundle
 
-# Chapter4: JavaScript Design Patterns: The Singleton
+# Chapter 4: JavaScript Design Patterns: The Singleton
 * Singleton pattern restricts the instantiation of a class to one object. A singleton should be immutable by the consuming code, and there should be no danger of instantiating more than one of them
 * ```javascript
   class UserStore {
@@ -142,4 +142,21 @@ of operations per second? Do you absolutely need to use a JS framework?
   export default instance;
   ```
 
-# ...
+# Chapter 5: Object Creation: Patterns and Best Practices
+* The old ways of creating JavaScript objects are now considered  not the best solution. There problems with repetition, performance and used memory
+* Using ES6 class syntax you can create JavaScript objects in a standard, fast, simple and clean way
+ ```javascript
+  class Thing {
+    constructor() {
+      this.x = 42;
+      this.y = 3.14;
+    }
+
+    f() {}
+    g() {}
+  }
+
+  const o = new Thing();
+  ```
+
+# ... 
