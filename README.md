@@ -143,7 +143,7 @@ of operations per second? Do you absolutely need to use a JS framework?
   ```
 
 # Chapter 5: Object Creation: Patterns and Best Practices
-* The old ways of creating JavaScript objects are now considered  not the best solution. There problems with repetition, performance and used memory
+* The old ways of creating JavaScript objects are now considered to be not the best solution. There're problems with repetition, performance and used memory
 * Using ES6 class syntax you can create JavaScript objects in a standard, fast, simple and clean way
  ```javascript
   class Thing {
@@ -160,3 +160,7 @@ of operations per second? Do you absolutely need to use a JS framework?
 # Chapter 6: Best Practices for Using Modern JavaScript Syntax
 * Use `const` for simple number or string variables to initialize and never alter, or for named functions and classes that you expect to define once and then leave closed for modification. Otherwise, use `let` for most variable
 declarations — especially those you want to be bounded by the scope in which they were defined
+* Modern JavaScript split out the behavior of the traditional
+function into arrow functions and classes. This allows programmers to choose whether they would prefer to follow a more functional programming paradigm or use a more object-oriented approach:
+  * A `class` needs to be declared in the script before it is instantiated with a `new` keyword - Prototypal inheritance using the `function` keyword works in JavaScript even if it’s defined later in the script
+  * Arrow functions encapsulate several qualities that can make calling them more convenient, and leave out other behavior that isn’t as useful when calling a function. For example, an arrow function inherits both `this` and `arguments` from the contexts in which it’s called. That’s great for situations like event handling. Traditional functions have forced programmers to bind a function to an existing `this` by using `.bind(this)`
