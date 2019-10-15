@@ -23,7 +23,7 @@ available later (asynchronous calls)
 
 ## Modules
 * Create separate files with the functionality you want, and export just certain parts to make them available to your application
-* ```javascript
+  ```javascript
   // lib/math.js
   export const pi = 3.141593;
   // app.js
@@ -112,9 +112,9 @@ of operations per second? Do you absolutely need to use a JS framework?
 
 # Chapter 4: JavaScript Design Patterns: The Singleton
 * Singleton pattern restricts the instantiation of a class to one object. A singleton should be immutable by the consuming code, and there should be no danger of instantiating more than one of them
-* ```javascript
+  ```javascript
   class UserStore {
-    constructor(){
+    constructor() {
       // here we check whether or not we’ve already instantiated a UserStore
       // if we have, we won’t create a new one
       if (! UserStore.instance) {
@@ -145,7 +145,7 @@ of operations per second? Do you absolutely need to use a JS framework?
 # Chapter 5: Object Creation: Patterns and Best Practices
 * The old ways of creating JavaScript objects are now considered to be not the best solution. There're problems with repetition, performance and used memory
 * Using ES6 class syntax you can create JavaScript objects in a standard, fast, simple and clean way
- ```javascript
+  ```javascript
   class Thing {
     constructor() {
       this.x = 42;
@@ -164,3 +164,84 @@ declarations — especially those you want to be bounded by the scope in which t
 function into arrow functions and classes. This allows programmers to choose whether they would prefer to follow a more functional programming paradigm or use a more object-oriented approach:
   * A `class` needs to be declared in the script before it is instantiated with a `new` keyword - Prototypal inheritance using the `function` keyword works in JavaScript even if it’s defined later in the script
   * Arrow functions encapsulate several qualities that can make calling them more convenient, and leave out other behavior that isn’t as useful when calling a function. For example, an arrow function inherits both `this` and `arguments` from the contexts in which it’s called. That’s great for situations like event handling. Traditional functions have forced programmers to bind a function to an existing `this` by using `.bind(this)`
+
+# Chapter 7: Flow Control in Modern JS: Callbacks to Promises to Async/Await
+
+## Promises
+* A series of two or more asynchronous calls can be completed in series by nesting callback functions, but that can introduce [callback hell](http://callbackhell.com/)
+* [Promises](https://www.sitepoint.com/overview-javascript-promises/) provide a clearer syntax. Asynchronous callback-based functions
+must return a Promise object that promises to run one of two functions at some point in the future:
+  * `resolve` is run when processing successfully completes
+  * `reject` is run when a failure occurs (optional)
+  *  
+  ```javascript
+  function asyncDBconnect(param) {
+    // function immediately returns a new Promise
+    return new Promise((resolve, reject) => {
+
+      // it runs either resolve() or reject() once a connection is established or fails
+      db.connect(param, (err, connection) => {
+        if (err) reject(err);
+        else resolve(connection);
+      });
+    });
+  }
+  ```
+* Anything that returns a Promise can start a series of asynchronous function call defined in `.then()` methods:
+  ```javascript
+  asyncDBconnect('http://localhost:1234')
+    .then(asyncGetSession)
+    .then(asyncGetUser)
+    .then(result => {
+      console.log('complete');
+      // result passed to next .then()
+      return result;
+    })
+    .catch(err => {
+      // called on any reject
+      console.log('error', err);
+    });
+  ```
+* ES2018 introduces a `.finally()` method, which runs any final logic regardless of the outcome:
+  ```javascript
+  .then(doSomething2)
+  .catch(err => {
+      console.log(err);
+  })
+  .finally(() => { ... })
+  ```
+*  Promise `.then()` methods run asynchronous functions one after the other. If the order doesn’t matter it’s faster to launch all asynchronous functions at the same time with `Promise.all()`:
+  ```javascript
+  // accepts an array of functions and returns another Promise
+  Promise.all([ async1, async2, async3 ])
+    .then(values => {
+    // array of resolved values
+    console.log(values);
+  })
+  ```
+*  `Promise.all()` terminates immediately if any one of the asynchronous functions calls reject
+* `Promise.race()` is similar to `Promise.all()`, except that it will resolve or reject as soon as the first Promise resolves or rejects
+
+## Async/Await
+* `async` and `await` make using Premises without using `.then()` cleaner
+  ```javascript
+  // the outer function must be preceded by an async statement
+  async function connect() {
+    try {
+      // calls to asynchronous functions must be preceded by await
+      const connection = await asyncDBconnect('http://localhost:1234'),
+      log = await asyncLogAccess(connection);
+      return log;
+    }
+
+    catch (e) {
+      console.log('error', err);
+      return null;
+    }
+  }
+
+  // run connect (self-executing async function)
+  (async () => { await connect(); })();
+  ```
+* `async` functions will silently exit if you omit a `try` / `catch` around any `await`
+which fails. If you have a long set of asynchronous await commands, you may need multiple `try` / `catch` blocks
