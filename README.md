@@ -161,7 +161,7 @@ of operations per second? Do you absolutely need to use a JS framework?
 * Use `const` for simple number or string variables to initialize and never alter, or for named functions and classes that you expect to define once and then leave closed for modification. Otherwise, use `let` for most variable
 declarations — especially those you want to be bounded by the scope in which they were defined
 * Modern JavaScript split out the behavior of the traditional
-function into arrow functions and classes. This allows programmers to choose whether they would prefer to follow a more functional programming paradigm or use a more object-oriented approach:
+function into arrow functions and classes. This allows programmers to choose whether they would prefer to follow a more functional programming paradigm or use a more [object-oriented](https://www.sitepoint.com/object-oriented-javascript-deep-dive-es6-classes/) approach:
   * A `class` needs to be declared in the script before it is instantiated with a `new` keyword - Prototypal inheritance using the `function` keyword works in JavaScript even if it’s defined later in the script
   * Arrow functions encapsulate several qualities that can make calling them more convenient, and leave out other behavior that isn’t as useful when calling a function. For example, an arrow function inherits both `this` and `arguments` from the contexts in which it’s called. That’s great for situations like event handling. Traditional functions have forced programmers to bind a function to an existing `this` by using `.bind(this)`
 
@@ -245,3 +245,86 @@ must return a Promise object that promises to run one of two functions at some p
   ```
 * `async` functions will silently exit if you omit a `try` / `catch` around any `await`
 which fails. If you have a long set of asynchronous await commands, you may need multiple `try` / `catch` blocks
+
+# Chapter 8: JavaScript’s New Private Class Fields, and How to Use Them
+
+* A class is a template which defines how objects of that type behave
+* A `constructor` method is run when an object of this type is created, and it typically defines initial properties:
+  ```javascript
+  class Animal {
+    constructor(name = 'anonymous') {
+      this.name = name;
+    }
+    // ...
+  }
+
+  // Create new object from this class
+  const rex = new Animal('Rex');
+  ```
+* Setters are methods used to define values only, Getters are
+ methods used to return a value only:
+  ```javascript
+  class Dog extends Animal {
+    // constructor(name) { ...
+
+    // setter
+    set eats(food) {
+      this.food = food;
+    }
+
+    // getter
+    get dinner() {
+      return `${this.name} eats ${this.food || 'nothing'} for dinner.`;
+    }
+  }
+
+  const rex = new Animal('Rex');
+  // call Setter
+  rex.eats = 'anything';
+  // call Getter
+  console.log(rex.dinner);
+  ```
+* It’s often practical to use one class as the base for another. `super` refers to the parent class and is usually called in the `constructor`:
+  ```javascript
+  class Dog extends Animal {
+    constructor(name) {
+      // super used to call the Animal constructor
+      super(name);
+    }
+    // ...
+  }
+  ```
+* Defining a method with the `static` keyword allows it to be called on a class without creating an object instance by adding properties to the class definition:
+  ```javascript
+  class Dog extends Animal {
+    //  ...
+
+    // return number of dog objects
+    static get COUNT() {
+      return Dog.count;
+    }
+  }
+
+  // static property added after class is defined
+  Dog.count = 0;
+
+  // = Dogs defined: 0
+  console.log(`Dogs defined: ${Dog.COUNT}`);
+
+  const don = new Dog('Don');
+  // = Dogs defined: 1
+  console.log(`Dogs defined: ${Dog.COUNT}`);
+  ```
+* In [ESnext](https://en.wikipedia.org/wiki/ECMAScript#ES.Next), private class fields are defined using a hash `#` prefix:
+  ```javascript
+  class MyClass {
+    // public
+    a = 1;
+    // private
+    #b = 2;
+    // private and static
+    static #c = 3;
+
+    //...
+  }
+  ```
